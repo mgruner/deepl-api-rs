@@ -1,5 +1,8 @@
 //! Provides a lightweight wrapper for the DeepL Pro REST API.
 //!
+//! *If you are looking for the `deepl` commandline utitlity, please refer
+//! to [its documentation](../deepl/index.html) instead.*
+//!
 //! # Requirements
 //!
 //! You need to have a valid [DeepL Pro Developer](https://www.deepl.com/pro#developer) account
@@ -33,7 +36,7 @@
 //!
 //! # See Also
 //!
-//! The important API functions are documented in the `DeepL` struct.
+//! The main API functions are documented in the [DeepL] struct.
 
 use error_chain::*;
 use reqwest;

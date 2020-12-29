@@ -1,5 +1,8 @@
-//! A unix-style commandline application for integrating the [DeepL API](https://www.deepl.com/docs-api/)
-//! into toolchains without any programming effort.
+//! This binary crate provides a unix-style commandline application for integrating the
+//! [DeepL API](https://www.deepl.com/docs-api/) into toolchains without any programming effort.
+//!
+//! *If you are looking for the `deepl-api` library crate, please refer
+//! to [its documentation](../deepl_api/index.html) instead.*
 //!
 //! # Requirements
 //!
