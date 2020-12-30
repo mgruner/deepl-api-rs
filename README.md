@@ -4,8 +4,8 @@ This repository contains a [Rust](https://www.rust-lang.org/) implementation of 
 
 ## Contents
 
-- A [Rust library crate](https://mgruner.github.io/deepl-api-rs/target/doc/deepl_api/index.html) for easy integration into Rust applications.
-- The `deepl` [unix-style commandline application](https://mgruner.github.io/deepl-api-rs/target/doc/deepl/index.html) for integration into existing toolchains without any programming effort.
+- A [Rust library crate](https://mgruner.github.io/deepl-api-rs-docs/deepl_api/index.html) for easy integration into Rust applications.
+- The `deepl` [unix-style commandline application](https://mgruner.github.io/deepl-api-rs-docs/deepl/index.html) for integration into existing toolchains without any programming effort.
 - Unit and integration tests.
 
 Please refer to the linked documentation for instructions on how to get started with the API and/or the CLI tool.

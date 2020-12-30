@@ -1,6 +1,2 @@
-/target/*
-!/target/doc
-/target/doc/*/
-!/target/doc/deepl
-!/target/doc/deepl_api
+/target
 Cargo.lock
