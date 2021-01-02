@@ -18,6 +18,7 @@
 //! ```rust
 //! use deepl_api::*;
 //!
+//! // Create a DeepL instance for our account.
 //! let deepl = DeepL::new(std::env::var("DEEPL_API_KEY").unwrap());
 //!
 //! // Translate Text
@@ -43,11 +44,6 @@ use reqwest;
 use serde::Deserialize;
 use serde::Serialize;
 
-/// The main API entry point.
-pub struct DeepL {
-    api_key: String,
-}
-
 /// Information about API usage & limits for this account.
 #[derive(Debug, Deserialize)]
 pub struct UsageInformation {
@@ -70,6 +66,7 @@ pub struct LanguageInformation {
     pub name: String,
 }
 
+/// Translation option that controls the splitting of sentences before the translation.
 pub enum SplitSentences {
     /// Don't split sentences.
     None,
@@ -79,6 +76,7 @@ pub enum SplitSentences {
     PunctuationAndNewlines,
 }
 
+/// Translation option that controls the desired translation formality.
 pub enum Formality {
     /// Default formality.
     Default,
@@ -131,10 +129,29 @@ struct ServerErrorMessage {
     message: String,
 }
 
+/// The main API entry point representing a DeepL developer account with an associated API key.
+///
+/// # Example
+///
+/// See [Example](crate#example).
+///
+/// # Error Handling
+///
+/// None of the functions will panic. Instead, the API methods usually return a [Result<T>] which may
+/// contain an [Error] of one of the defined [ErrorKinds](ErrorKind) with more information about what went wrong.
+///
+/// If you get an [AuthorizationError](ErrorKind::AuthorizationError), then something was wrong with your API key, for example.
+pub struct DeepL {
+    api_key: String,
+}
+
 /// Implements the actual REST API. See also the [online documentation](https://www.deepl.com/docs-api/).
 impl DeepL {
-    /// Use this to create a new DeepL API client instance.
+    /// Use this to create a new DeepL API client instance where multiple function calls can be performed.
     /// A valid `api_key` is required.
+    ///
+    /// Should you ever need to use more than one DeepL account in our program, then you can create one
+    /// instance for each account / API key.
     pub fn new(api_key: String) -> DeepL {
         DeepL { api_key }
     }
@@ -212,8 +229,8 @@ impl DeepL {
         }
     }
 
-    /// Translate one or more text chunks at once. You can pass in optional
-    /// translation flags if you need non-default behaviour.
+    /// Translate one or more [text chunks](TranslatableTextList) at once. You can pass in optional
+    /// [translation flags](TranslationOptions) if you need non-default behaviour.
     ///
     /// Please see the parameter documentation and the
     /// [vendor documentation](https://www.deepl.com/docs-api/translating-text/) for details.
@@ -286,14 +303,18 @@ error_chain! {
         Transport(reqwest::Error);
     }
     errors {
+        /// Indicates that the provided API key was refused by the DeepL server.
         AuthorizationError {
             description("Authorization failed, is your API key correct?")
             display("Authorization failed, is your API key correct?")
         }
+        /// An error occurred on the server side when processing a request. If possible, details
+        /// will be provided in the error message.
         ServerError(message: String) {
             description("An error occurred while communicating with the DeepL server.")
             display("An error occurred while communicating with the DeepL server: '{}'.", message)
         }
+        /// An error occurred on the client side when deserializing the response data.
         DeserializationError {
             description("An error occurred while deserializing the response data.")
             display("An error occurred while deserializing the response data.")
