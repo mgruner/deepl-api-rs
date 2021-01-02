@@ -1,8 +1,13 @@
 [package]
-name    = "deepl-api"
-version = "0.1.0"
-authors = ["Martin Gruner <mg.pub@gmx.net>"]
-edition = "2018"
+name        = "deepl-api"
+description = "Bindings and a commandline tools for the DeepL REST API (https://www.deepl.com/docs-api/)"
+version     = "0.1.0"
+authors     = ["Martin Gruner <mg.pub@gmx.net>"]
+edition     = "2018"
+repository  = "https://github.com/mgruner/deepl-api-rs/"
+# license =
+keywords    = ["deepl", "api", "translation", "ai", "machine-learning"]
+categories  = ["command-line-utilities", "api-bindings", "internationalization", "text-processing"]
 
 [dependencies]
 error-chain = "0.12"
