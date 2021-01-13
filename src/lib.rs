@@ -459,4 +459,16 @@ mod tests {
         };
         DeepL::new(key).translate(None, texts).unwrap();
     }
+
+    #[test]
+    #[should_panic(expected = "Error(AuthorizationError")]
+    fn translate_unauthorized() {
+        let key = "wrong_key".to_string();
+        let texts = TranslatableTextList {
+            source_language: Some("DE".to_string()),
+            target_language: "EN-US".to_string(),
+            texts: vec!["ja".to_string()],
+        };
+        DeepL::new(key).translate(None, texts).unwrap();
+    }
 }
