@@ -52,7 +52,7 @@
 //! Bitte gehen Sie nach Hause.
 //! ```
 //!
-//! By providing the options `--input-filepath` and / or `--output-filepath`, you can tell `deepl` to
+//! By providing the options `--input-file` and / or `--output-file`, you can tell `deepl` to
 //! read from / write to files, rather than `STDIN` / `STDOUT`.
 //!
 //! ## Retrieving Account Usage & Limits
@@ -130,7 +130,7 @@ fn translate(deepl: &DeepL, t: &Translate) -> Result<()> {
     }
 
     let mut text = String::new();
-    if let Some(filepath) = t.input_filepath.clone() {
+    if let Some(filepath) = t.input_file.clone() {
         text = fs::read_to_string(filepath)?;
     } else {
         io::stdin().read_to_string(&mut text)?;
@@ -148,7 +148,7 @@ fn translate(deepl: &DeepL, t: &Translate) -> Result<()> {
         output.push_str(&t.text);
     }
 
-    if let Some(filepath) = t.output_filepath.clone() {
+    if let Some(filepath) = t.output_file.clone() {
         fs::write(filepath, &output)?;
     } else {
         println!("{}", output);

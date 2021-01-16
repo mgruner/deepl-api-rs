@@ -28,10 +28,10 @@ pub struct Translate {
     pub target_language: String,
     /// Input filepath (optional, reads from STDIN by default)
     #[clap(long)]
-    pub input_filepath: Option<String>,
+    pub input_file: Option<String>,
     /// Output filepath (optional, prints to STDOUT by default)
     #[clap(long)]
-    pub output_filepath: Option<String>,
+    pub output_file: Option<String>,
 
     /// Preserve formatting
     #[clap(long)]
