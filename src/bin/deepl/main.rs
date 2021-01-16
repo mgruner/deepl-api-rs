@@ -20,7 +20,7 @@
 //!
 //! To get an overview of the available commands, just invoke the program.
 //!
-//! ```bash
+//! ```text
 //! shell> deepl
 //! deepl 0.1.0
 //! Command line client for the DeepL API
@@ -47,7 +47,7 @@
 //! By default, `deepl` reads from `STDIN` and writes to `STDOUT`, which means that you can integrate
 //! it nicely into toolchains.
 //!
-//! ```bash
+//! ```text
 //! shell> echo "Please go home." | deepl translate --source-language EN --target-language DE | cat -
 //! Bitte gehen Sie nach Hause.
 //! ```
@@ -57,7 +57,7 @@
 //!
 //! ## Retrieving Account Usage & Limits
 //!
-//! ```bash
+//! ```text
 //! shell> deepl usage-information
 //! Available characters per billing period: 250000
 //! Characters already translated in the current billing period: 3317
@@ -65,7 +65,7 @@
 //!
 //! ## Retrieving Available Languages
 //!
-//! ```bash
+//! ```text
 //! shell> deepl languages
 //! DeepL can translate from the following source languages:
 //!   DE    (German)
