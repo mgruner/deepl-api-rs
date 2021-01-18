@@ -42,7 +42,6 @@
 use error_chain::*;
 use reqwest;
 use serde::Deserialize;
-use serde::Serialize;
 
 /// Information about API usage & limits for this account.
 #[derive(Debug, Deserialize)]
@@ -157,13 +156,19 @@ impl DeepL {
     }
 
     /// Private method that performs the HTTP calls.
-    fn http_request<T: Serialize + ?Sized>(
+    fn http_request(
         &self,
         url: &str,
-        query: &T,
+        query: &Vec<(&str, std::string::String)>,
     ) -> Result<reqwest::blocking::Response> {
+
+        let url = format!("https://api.deepl.com/v2{}", url);
+        let mut payload = query.clone();
+        payload.push(("api_key", self.api_key.clone()));
+
         let client = reqwest::blocking::Client::new();
-        let res = match client.post(url).query(query).send() {
+
+        let res = match client.post(&url).query(query).send() {
             Ok(response) if response.status().is_success() => response,
             Ok(response) if response.status() == reqwest::StatusCode::UNAUTHORIZED => {
                 bail!(ErrorKind::AuthorizationError)
@@ -171,6 +176,8 @@ impl DeepL {
             Ok(response) if response.status() == reqwest::StatusCode::FORBIDDEN => {
                 bail!(ErrorKind::AuthorizationError)
             }
+            // DeepL sends back error messages in the response body.
+            //   Try to fetch them to construct more helpful exceptions.
             Ok(response) => {
                 let status = response.status();
                 match response.json::<ServerErrorMessage>() {
@@ -190,8 +197,7 @@ impl DeepL {
     ///
     /// See also the [vendor documentation](https://www.deepl.com/docs-api/other-functions/monitoring-usage/).
     pub fn usage_information(&self) -> Result<UsageInformation> {
-        let query = [("auth_key", self.api_key.clone())];
-        let res = self.http_request("https://api.deepl.com/v2/usage", &query)?;
+        let res = self.http_request("/usage", &vec![])?;
 
         match res.json::<UsageInformation>() {
             Ok(content) => return Ok(content),
@@ -217,11 +223,7 @@ impl DeepL {
 
     /// Private method to make the API calls for the language lists.
     fn languages(&self, language_type: &str) -> Result<LanguageList> {
-        let query = [
-            ("auth_key", self.api_key.clone()),
-            ("type", language_type.to_string()),
-        ];
-        let res = self.http_request("https://api.deepl.com/v2/languages", &query)?;
+        let res = self.http_request("/languages", &vec![("type", language_type.to_string())])?;
 
         match res.json::<LanguageList>() {
             Ok(content) => return Ok(content),
@@ -240,7 +242,6 @@ impl DeepL {
         text_list: TranslatableTextList,
     ) -> Result<Vec<TranslatedText>> {
         let mut query = vec![
-            ("auth_key", self.api_key.clone()),
             ("target_lang", text_list.target_language),
         ];
         if let Some(source_language_content) = text_list.source_language {
@@ -281,7 +282,7 @@ impl DeepL {
             }
         }
 
-        let res = self.http_request("https://api.deepl.com/v2/translate", &query)?;
+        let res = self.http_request("/translate", &query)?;
 
         match res.json::<TranslatedTextList>() {
             Ok(content) => Ok(content.translations),
