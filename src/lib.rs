@@ -164,11 +164,11 @@ impl DeepL {
 
         let url = format!("https://api.deepl.com/v2{}", url);
         let mut payload = query.clone();
-        payload.push(("api_key", self.api_key.clone()));
+        payload.push(("auth_key", self.api_key.clone()));
 
         let client = reqwest::blocking::Client::new();
 
-        let res = match client.post(&url).query(query).send() {
+        let res = match client.post(&url).query(&payload).send() {
             Ok(response) if response.status().is_success() => response,
             Ok(response) if response.status() == reqwest::StatusCode::UNAUTHORIZED => {
                 bail!(ErrorKind::AuthorizationError)
