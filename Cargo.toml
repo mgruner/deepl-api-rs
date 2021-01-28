@@ -5,7 +5,7 @@ version     = "0.1.0"
 authors     = ["Martin Gruner <mg.pub@gmx.net>"]
 edition     = "2018"
 repository  = "https://github.com/mgruner/deepl-api-rs/"
-# license =
+license     = "MIT OR Apache-2.0"
 keywords    = ["deepl", "api", "translation", "ai", "machine-learning"]
 categories  = ["command-line-utilities", "api-bindings", "internationalization", "text-processing"]
 
