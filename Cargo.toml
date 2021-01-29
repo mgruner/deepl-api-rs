@@ -1,6 +1,6 @@
 [package]
 name          = "deepl-api"
-description   = "Bindings and a commandline tools for the DeepL REST API (https://www.deepl.com/docs-api/)"
+description   = "Bindings and a commandline tool for the DeepL REST API (https://www.deepl.com/docs-api/)"
 version       = "0.2.0"
 authors       = ["Martin Gruner <mg.pub@gmx.net>"]
 edition       = "2018"
