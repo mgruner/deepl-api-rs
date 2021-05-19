@@ -162,7 +162,11 @@ impl DeepL {
         query: &Vec<(&str, std::string::String)>,
     ) -> Result<reqwest::blocking::Response> {
 
-        let url = format!("https://api.deepl.com/v2{}", url);
+        let url = match self.api_key.ends_with(":fx") {
+            true  => format!("https://api-free.deepl.com/v2{}", url),
+            false => format!("https://api.deepl.com/v2{}", url),
+        };
+
         let mut payload = query.clone();
         payload.push(("auth_key", self.api_key.clone()));
 
