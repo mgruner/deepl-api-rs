@@ -2,6 +2,8 @@
 
 This repository contains a [Rust](https://www.rust-lang.org/) implementation of the [DeepL REST API](https://www.deepl.com/docs-api/).
 
+There are comparable implementations for [Python](https://github.com/mgruner/deepl-api-py) and [Ruby](https://github.com/mgruner/deepl-api-rs).
+
 ## Contents
 
 - A [Rust library crate](https://mgruner.github.io/deepl-api-rs-docs/deepl_api/index.html) for easy integration into Rust applications.
