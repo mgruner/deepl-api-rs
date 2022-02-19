@@ -442,7 +442,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "Error(ServerError(\"Parameter \\'text\\' not specified.")]
+    #[should_panic(expected = "Error(ServerError(\"Parameter 'text' not specified.")]
     fn translate_empty() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let texts = TranslatableTextList {
@@ -454,7 +454,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "Error(ServerError(\"Value for \\'target_lang\\' not supported.")]
+    #[should_panic(expected = "Error(ServerError(\"Value for 'target_lang' not supported.")]
     fn translate_wrong_language() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let texts = TranslatableTextList {

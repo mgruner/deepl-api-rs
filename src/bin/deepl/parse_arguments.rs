@@ -1,15 +1,16 @@
-pub use clap::Clap;
+pub use clap::Parser;
+pub use clap::Subcommand;
 
 /// Command line client for the DeepL API.
-#[derive(Clap)]
-#[clap(name = "deepl",version(env!("CARGO_PKG_VERSION")),setting(clap::AppSettings::GlobalVersion))]
+#[derive(Parser, Debug)]
+#[clap(name = "deepl",version(env!("CARGO_PKG_VERSION")),setting(clap::AppSettings::PropagateVersion))]
 pub struct Opts {
     #[clap(subcommand)]
-    pub subcmd: SubCommand,
+    pub subcmd: SubCmd,
 }
 
-#[derive(Clap)]
-pub enum SubCommand {
+#[derive(clap::Subcommand, Debug)]
+pub enum SubCmd {
     Translate(Translate),
     /// Fetch imformation about account usage & limits.
     UsageInformation,
@@ -18,7 +19,7 @@ pub enum SubCommand {
 }
 
 /// A subcommand for controlling testing
-#[derive(Clap)]
+#[derive(Parser, Debug)]
 pub struct Translate {
     /// Source language (optional)
     #[clap(long)]

@@ -102,9 +102,9 @@ fn main() {
     let deepl = DeepL::new(key);
 
     let result = match opts.subcmd {
-        SubCommand::Translate(t) => translate(&deepl, &t),
-        SubCommand::UsageInformation => usage_information(&deepl),
-        SubCommand::Languages => languages(&deepl),
+        SubCmd::Translate(t) => translate(&deepl, &t),
+        SubCmd::UsageInformation => usage_information(&deepl),
+        SubCmd::Languages => languages(&deepl),
     };
 
     if let Err(e) = result {
