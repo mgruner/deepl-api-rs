@@ -3,7 +3,7 @@ pub use clap::Subcommand;
 
 /// Command line client for the DeepL API.
 #[derive(Parser, Debug)]
-#[clap(name = "deepl",version(env!("CARGO_PKG_VERSION")),setting(clap::AppSettings::PropagateVersion))]
+#[clap(name = "deepl",version(env!("CARGO_PKG_VERSION")),propagate_version(true))]
 pub struct Opts {
     #[clap(subcommand)]
     pub subcmd: SubCmd,

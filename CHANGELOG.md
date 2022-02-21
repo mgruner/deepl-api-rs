@@ -1,4 +1,7 @@
-# 2021-05-23 v0.3.0
+# 2022-02-21 v0.3.1
+- Fix deprecation warning.
+
+# 2022-02-19 v0.3.0
 - Switch to 2021 edition.
 
 # 2021-05-23 v0.2.1
