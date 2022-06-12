@@ -156,23 +156,22 @@ impl DeepL {
     }
 
     /// Private method that performs the HTTP calls.
-    fn http_request(
+    async fn http_request(
         &self,
         url: &str,
         query: &Vec<(&str, std::string::String)>,
-    ) -> Result<reqwest::blocking::Response> {
-
+    ) -> Result<reqwest::Response> {
         let url = match self.api_key.ends_with(":fx") {
-            true  => format!("https://api-free.deepl.com/v2{}", url),
+            true => format!("https://api-free.deepl.com/v2{}", url),
             false => format!("https://api.deepl.com/v2{}", url),
         };
 
         let mut payload = query.clone();
         payload.push(("auth_key", self.api_key.clone()));
 
-        let client = reqwest::blocking::Client::new();
+        let client = reqwest::Client::new();
 
-        let res = match client.post(&url).query(&payload).send() {
+        let res = match client.post(&url).query(&payload).send().await {
             Ok(response) if response.status().is_success() => response,
             Ok(response) if response.status() == reqwest::StatusCode::UNAUTHORIZED => {
                 bail!(ErrorKind::AuthorizationError)
@@ -184,7 +183,7 @@ impl DeepL {
             //   Try to fetch them to construct more helpful exceptions.
             Ok(response) => {
                 let status = response.status();
-                match response.json::<ServerErrorMessage>() {
+                match response.json::<ServerErrorMessage>().await {
                     Ok(server_error) => bail!(ErrorKind::ServerError(server_error.message)),
                     _ => bail!(ErrorKind::ServerError(status.to_string())),
                 }
@@ -200,10 +199,10 @@ impl DeepL {
     /// This can also be used to verify an API key without consuming translation contingent.
     ///
     /// See also the [vendor documentation](https://www.deepl.com/docs-api/other-functions/monitoring-usage/).
-    pub fn usage_information(&self) -> Result<UsageInformation> {
-        let res = self.http_request("/usage", &vec![])?;
+    pub async fn usage_information(&self) -> Result<UsageInformation> {
+        let res = self.http_request("/usage", &vec![]).await?;
 
-        match res.json::<UsageInformation>() {
+        match res.json::<UsageInformation>().await {
             Ok(content) => return Ok(content),
             _ => {
                 bail!(ErrorKind::DeserializationError);
@@ -214,22 +213,24 @@ impl DeepL {
     /// Retrieve all currently available source languages.
     ///
     /// See also the [vendor documentation](https://www.deepl.com/docs-api/other-functions/listing-supported-languages/).
-    pub fn source_languages(&self) -> Result<LanguageList> {
-        return self.languages("source");
+    pub async fn source_languages(&self) -> Result<LanguageList> {
+        return self.languages("source").await;
     }
 
     /// Retrieve all currently available target languages.
     ///
     /// See also the [vendor documentation](https://www.deepl.com/docs-api/other-functions/listing-supported-languages/).
-    pub fn target_languages(&self) -> Result<LanguageList> {
-        return self.languages("target");
+    pub async fn target_languages(&self) -> Result<LanguageList> {
+        return self.languages("target").await;
     }
 
     /// Private method to make the API calls for the language lists.
-    fn languages(&self, language_type: &str) -> Result<LanguageList> {
-        let res = self.http_request("/languages", &vec![("type", language_type.to_string())])?;
+    async fn languages(&self, language_type: &str) -> Result<LanguageList> {
+        let res = self
+            .http_request("/languages", &vec![("type", language_type.to_string())])
+            .await?;
 
-        match res.json::<LanguageList>() {
+        match res.json::<LanguageList>().await {
             Ok(content) => return Ok(content),
             _ => bail!(ErrorKind::DeserializationError),
         }
@@ -240,14 +241,12 @@ impl DeepL {
     ///
     /// Please see the parameter documentation and the
     /// [vendor documentation](https://www.deepl.com/docs-api/translating-text/) for details.
-    pub fn translate(
+    pub async fn translate(
         &self,
         options: Option<TranslationOptions>,
         text_list: TranslatableTextList,
     ) -> Result<Vec<TranslatedText>> {
-        let mut query = vec![
-            ("target_lang", text_list.target_language),
-        ];
+        let mut query = vec![("target_lang", text_list.target_language)];
         if let Some(source_language_content) = text_list.source_language {
             query.push(("source_lang", source_language_content));
         }
@@ -286,9 +285,9 @@ impl DeepL {
             }
         }
 
-        let res = self.http_request("/translate", &query)?;
+        let res = self.http_request("/translate", &query).await?;
 
-        match res.json::<TranslatedTextList>() {
+        match res.json::<TranslatedTextList>().await {
             Ok(content) => Ok(content.translations),
             _ => bail!(ErrorKind::DeserializationError),
         }
@@ -333,29 +332,29 @@ error_chain! {
 mod tests {
     use super::*;
 
-    #[test]
-    fn usage_information() {
+    #[tokio::test]
+    async fn usage_information() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
-        let usage_information = DeepL::new(key).usage_information().unwrap();
+        let usage_information = DeepL::new(key).usage_information().await.unwrap();
         assert!(usage_information.character_limit > 0);
     }
 
-    #[test]
-    fn source_languages() {
+    #[tokio::test]
+    async fn source_languages() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
-        let source_languages = DeepL::new(key).source_languages().unwrap();
+        let source_languages = DeepL::new(key).source_languages().await.unwrap();
         assert_eq!(source_languages.last().unwrap().name, "Chinese");
     }
 
-    #[test]
-    fn target_languages() {
+    #[tokio::test]
+    async fn target_languages() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
-        let target_languages = DeepL::new(key).target_languages().unwrap();
+        let target_languages = DeepL::new(key).target_languages().await.unwrap();
         assert_eq!(target_languages.last().unwrap().name, "Chinese");
     }
 
-    #[test]
-    fn translate() {
+    #[tokio::test]
+    async fn translate() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let deepl = DeepL::new(key);
         let tests = vec![
@@ -437,43 +436,43 @@ mod tests {
             ),
         ];
         for test in tests {
-            assert_eq!(deepl.translate(test.0, test.1).unwrap(), test.2);
+            assert_eq!(deepl.translate(test.0, test.1).await.unwrap(), test.2);
         }
     }
 
-    #[test]
+    #[tokio::test]
     #[should_panic(expected = "Error(ServerError(\"Parameter 'text' not specified.")]
-    fn translate_empty() {
+    async fn translate_empty() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let texts = TranslatableTextList {
             source_language: Some("DE".to_string()),
             target_language: "EN-US".to_string(),
             texts: vec![],
         };
-        DeepL::new(key).translate(None, texts).unwrap();
+        DeepL::new(key).translate(None, texts).await.unwrap();
     }
 
-    #[test]
+    #[tokio::test]
     #[should_panic(expected = "Error(ServerError(\"Value for 'target_lang' not supported.")]
-    fn translate_wrong_language() {
+    async fn translate_wrong_language() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let texts = TranslatableTextList {
             source_language: None,
             target_language: "NONEXISTING".to_string(),
             texts: vec!["ja".to_string()],
         };
-        DeepL::new(key).translate(None, texts).unwrap();
+        DeepL::new(key).translate(None, texts).await.unwrap();
     }
 
-    #[test]
+    #[tokio::test]
     #[should_panic(expected = "Error(AuthorizationError")]
-    fn translate_unauthorized() {
+    async fn translate_unauthorized() {
         let key = "wrong_key".to_string();
         let texts = TranslatableTextList {
             source_language: Some("DE".to_string()),
             target_language: "EN-US".to_string(),
             texts: vec!["ja".to_string()],
         };
-        DeepL::new(key).translate(None, texts).unwrap();
+        DeepL::new(key).translate(None, texts).await.unwrap();
     }
 }
