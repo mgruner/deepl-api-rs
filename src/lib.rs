@@ -351,7 +351,7 @@ mod tests {
     fn target_languages() {
         let key = std::env::var("DEEPL_API_KEY").unwrap();
         let target_languages = DeepL::new(key).target_languages().unwrap();
-        assert_eq!(target_languages.last().unwrap().name, "Chinese");
+        assert_eq!(target_languages.last().unwrap().name, "Chinese (simplified)");
     }
 
     #[test]
