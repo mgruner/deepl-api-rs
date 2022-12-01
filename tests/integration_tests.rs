@@ -98,7 +98,7 @@ fn test_translate() {
         .assert()
         .code(1)
         .stdout(predicate::eq(""))
-        .stderr(predicate::eq("Error: An error occurred while communicating with the DeepL server: 'Value for 'target_lang' not supported.'.\n"));
+        .stderr(predicate::eq("Error: An error occurred while communicating with the DeepL server: \'Value for \'target_lang\' not supported.: \'.\n"));
 
     // Via valid files
     let tempdir = assert_fs::TempDir::new().unwrap();

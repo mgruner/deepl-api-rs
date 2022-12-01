@@ -118,6 +118,7 @@ fn translate(deepl: &DeepL, t: &Translate) -> Result<()> {
         split_sentences: None,
         preserve_formatting: None,
         formality: None,
+        glossary_id: None
     };
     if t.preserve_formatting {
         t_opts.preserve_formatting = Some(true);
