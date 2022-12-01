@@ -9,7 +9,7 @@ fn test_help() {
     cmd.assert()
         .code(2)
         .stdout(predicate::eq(""))
-        .stderr(predicate::str::contains("USAGE"));
+        .stderr(predicate::str::contains("Usage"));
 }
 
 // Check success/failure depending on available DEEPL_API_KEY.

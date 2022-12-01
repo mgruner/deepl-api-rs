@@ -1,7 +1,7 @@
 [package]
 name          = "deepl-api"
 description   = "Bindings and a commandline tool for the DeepL REST API (https://www.deepl.com/docs-api/)"
-version       = "0.3.1"
+version       = "0.4.0"
 authors       = ["Martin Gruner <mg.pub@gmx.net>"]
 edition       = "2021"
 repository    = "https://github.com/mgruner/deepl-api-rs/"
@@ -12,12 +12,12 @@ categories    = ["command-line-utilities", "api-bindings", "internationalization
 
 [dependencies]
 error-chain = "0.12"
-clap        = { version = "3.1", features = ["derive"] }
+clap        = { version = "4.0", features = ["derive"] }
 serde       = { version = "1.0",  features = ["derive"] }
 reqwest     = { version = "0.11", features = ["blocking", "json"] }
-chrono      = { version = "0.4.22", features = ["serde"] }
+chrono      = { version = "0.4", features = ["serde"] }
 
 [dev-dependencies]
-assert_cmd  = "1.0"
+assert_cmd  = "2.0"
 assert_fs   = "1.0"
-predicates  = "1.0"
+predicates  = "2.1"
