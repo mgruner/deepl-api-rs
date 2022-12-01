@@ -472,7 +472,7 @@ mod tests {
     #[test]
     fn target_languages() {
         let target_languages = create_deepl().target_languages().unwrap();
-        assert_eq!(target_languages.last().unwrap().name, "Chinese");
+        assert_eq!(target_languages.last().unwrap().name, "Chinese (simplified)");
     }
 
     #[test]
