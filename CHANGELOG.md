@@ -1,3 +1,6 @@
+# 2022-12-01 v0.4.0
+- Add [#3](https://github.com/mgruner/deepl-api-rs/pull/3) - added support for glossaries, contributed by @dervoeti. Thanks!
+
 # 2022-02-21 v0.3.1
 - Fix deprecation warning.
 
