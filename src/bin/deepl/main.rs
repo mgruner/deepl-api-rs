@@ -36,7 +36,7 @@
 //!     help                 Prints this message or the help of the given subcommand(s)
 //!     languages            Fetch list of available source and target languages
 //!     translate            A subcommand for controlling testing
-//!     usage-information    Fetch imformation about account usage & limits
+//!     usage-information    Fetch information about account usage & limits
 //! ```
 //!
 //! You can call `deepl help translate` to get a detailed reference for the various options of the

@@ -12,7 +12,7 @@ pub struct Opts {
 #[derive(clap::Subcommand, Debug)]
 pub enum SubCmd {
     Translate(Translate),
-    /// Fetch imformation about account usage & limits.
+    /// Fetch information about account usage & limits.
     UsageInformation,
     /// Fetch list of available source and target languages.
     Languages,

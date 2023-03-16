@@ -1,6 +1,6 @@
 //! Provides a lightweight wrapper for the DeepL Pro REST API.
 //!
-//! *If you are looking for the `deepl` commandline utitlity, please refer
+//! *If you are looking for the `deepl` commandline utility, please refer
 //! to [its documentation](../deepl/index.html) instead.*
 //!
 //! # Requirements
@@ -70,7 +70,7 @@ pub struct LanguageInformation {
 pub enum SplitSentences {
     /// Don't split sentences.
     None,
-    /// Split on punctiation only.
+    /// Split on punctuation only.
     Punctuation,
     /// Split on punctuation and newlines.
     PunctuationAndNewlines,
