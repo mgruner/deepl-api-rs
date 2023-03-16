@@ -1,3 +1,6 @@
+# 2023-03-16 v0.4.3
+- Reverted documentation switch due to https://github.com/rust-lang/docs.rs/issues/238 (sorry!).
+
 # 2023-03-16 v0.4.2
 - Switched documentation to https://docs.rs/deepl_api.
 
