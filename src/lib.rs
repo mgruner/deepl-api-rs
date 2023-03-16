@@ -67,6 +67,7 @@ pub struct LanguageInformation {
 }
 
 /// Translation option that controls the splitting of sentences before the translation.
+#[derive(Clone)]
 pub enum SplitSentences {
     /// Don't split sentences.
     None,
@@ -77,6 +78,7 @@ pub enum SplitSentences {
 }
 
 /// Translation option that controls the desired translation formality.
+#[derive(Clone)]
 pub enum Formality {
     /// Default formality.
     Default,
@@ -87,6 +89,7 @@ pub enum Formality {
 }
 
 /// Custom [flags for the translation request](https://www.deepl.com/docs-api/translating-text/request/).
+#[derive(Clone)]
 pub struct TranslationOptions {
     /// Sets whether the translation engine should first split the input into sentences. This is enabled by default.
     pub split_sentences: Option<SplitSentences>,
