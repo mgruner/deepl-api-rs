@@ -71,7 +71,7 @@ fn test_translate() {
         .code(2)
         .stdout(predicate::eq(""))
         .stderr(predicate::str::contains(
-            "error: The following required arguments were not provided:",
+            "error: the following required arguments were not provided:",
         ));
 
     // STDIN/STDOUT
