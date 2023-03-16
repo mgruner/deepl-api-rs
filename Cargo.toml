@@ -1,11 +1,11 @@
 [package]
 name          = "deepl-api"
 description   = "Bindings and a commandline tool for the DeepL REST API (https://www.deepl.com/docs-api/)"
-version       = "0.4.1"
+version       = "0.4.2"
 authors       = ["Martin Gruner <mg.pub@gmx.net>"]
 edition       = "2021"
 repository    = "https://github.com/mgruner/deepl-api-rs/"
-documentation = "https://mgruner.github.io/deepl-api-rs-docs/deepl_api/index.html"
+documentation = "https://docs.rs/deepl_api"
 license       = "MIT OR Apache-2.0"
 keywords      = ["deepl", "api", "translation", "ai", "machine-learning"]
 categories    = ["command-line-utilities", "api-bindings", "internationalization", "text-processing"]

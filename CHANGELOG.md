@@ -1,3 +1,6 @@
+# 2023-03-16 v0.4.2
+- Switched documentation to https://docs.rs/deepl_api.
+
 # 2023-03-16 v0.4.1
 - Add [#4](https://github.com/mgruner/deepl-api-rs/pull/4) - feat: implement Clone for TranslationOptions, contributed by @0x6b. Thanks!
 
