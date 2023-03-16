@@ -1,3 +1,6 @@
+# 2023-03-16 v0.4.1
+- Add [#4](https://github.com/mgruner/deepl-api-rs/pull/4) - feat: implement Clone for TranslationOptions, contributed by @0x6b. Thanks!
+
 # 2022-12-01 v0.4.0
 - Add [#3](https://github.com/mgruner/deepl-api-rs/pull/3) - added support for glossaries, contributed by @dervoeti. Thanks!
 
