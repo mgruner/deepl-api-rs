@@ -86,6 +86,10 @@ pub enum Formality {
     More,
     /// Translate more formally.
     Less,
+    /// More formal if supported by target language, else default
+    PreferMore,
+    /// Less formal if supported by target language, else default
+    PreferLess,
 }
 
 /// Custom [flags for the translation request](https://www.deepl.com/docs-api/translating-text/request/).
@@ -336,6 +340,8 @@ impl DeepL {
                         Formality::Default => "default".to_string(),
                         Formality::More => "more".to_string(),
                         Formality::Less => "less".to_string(),
+                        Formality::PreferMore => "prefer_more".to_string(),
+                        Formality::PreferLess => "prefer_less".to_string(),
                     },
                 ));
             }
